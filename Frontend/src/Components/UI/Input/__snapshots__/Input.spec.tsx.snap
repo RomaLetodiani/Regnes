@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="relative w-full"
+  >
+    <label
+      class="absolute left-3 pointer-events-none transition-all transform top-1/2 -translate-y-1/2 text-secondary-200"
+      for="email"
+    >
+      Email
+    </label>
+    <input
+      class="w-full border outline-none px-3 py-2 rounded-xl pt-5 undefined"
+      id="email"
+    />
+  </div>
+</DocumentFragment>
+`;
