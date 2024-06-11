@@ -2,27 +2,39 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserSettings {
-  id: Int!
-  userId: Int!
-  theme: Int!
-  receiveNotifications: Boolean!
-}
-
 type User {
+  """User ID"""
   id: Int!
+
+  """User unique username"""
   username: String!
-  email: String!
+
+  """User password"""
   password: String!
-  settings: UserSettings
+
+  """User """
+  email: String!
 }
 
 type Query {
-  getUsers: [User!]!
-  getUserById(id: Int!): User
-  getUserByUsername(username: String!): User
+  AllUsers: [User!]!
+  userById(id: Int!): User
+  helloWorld: String!
 }
 
 type Mutation {
-  createUser(username: String!, email: String!, password: String!): User!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
