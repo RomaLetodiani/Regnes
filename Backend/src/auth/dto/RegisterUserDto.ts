@@ -1,12 +1,16 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { hash } from 'bcryptjs';
 import { BeforeInsert } from 'typeorm';
+import { Field, InputType } from '@nestjs/graphql';
 
-export class CreateUserDto {
+@InputType()
+export class RegisterUserDto {
+  @Field()
   @IsString()
   @IsNotEmpty({ message: 'Field username must be added' })
   username: string;
 
+  @Field()
   @IsNotEmpty({ message: 'Field description must be added' })
   @IsString()
   password: string;
