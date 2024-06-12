@@ -22,7 +22,7 @@ export class User {
   @Field()
   password: string;
 
-  @Column()
+  @Column({ default: 0 })
   @Field(() => Int)
   signInCount: number;
 
@@ -33,4 +33,7 @@ export class User {
   @UpdateDateColumn()
   @Field(() => Date, { defaultValue: new Date() })
   updatedAt: Date;
+
+  @Column({ nullable: true })
+  refreshToken: string;
 }
