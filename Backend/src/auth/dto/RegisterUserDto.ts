@@ -1,22 +1,19 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { hash } from 'bcryptjs';
-import { BeforeInsert } from 'typeorm';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class RegisterUserDto {
   @Field()
   @IsString()
-  @IsNotEmpty({ message: 'Field username must be added' })
+  @IsNotEmpty({
+    message: 'Username must be added',
+  })
+  @Length(4, 20, { message: 'Username must be between 4 and 20 characters' })
   username: string;
 
   @Field()
-  @IsNotEmpty({ message: 'Field description must be added' })
   @IsString()
+  @IsNotEmpty({ message: 'Password must be added' })
+  @Length(4, 20, { message: 'Password must be between 4 and 20 characters' })
   password: string;
-
-  @BeforeInsert() // Hash password before saving
-  async hashPassword() {
-    this.password = await hash(this.password, 10);
-  }
 }

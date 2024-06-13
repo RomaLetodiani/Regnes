@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, hash } from 'bcryptjs';
@@ -29,7 +29,13 @@ export class AuthService {
   }
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.usersService.findOne({ username });
+    let user: User;
+
+    try {
+      user = await this.usersService.findOne({ username });
+    } catch {
+      throw new BadRequestException('Invalid credentials');
+    }
 
     const passwordEqual = await this.comparePassword(password, user.password);
 
@@ -72,17 +78,11 @@ export class AuthService {
         secret: jwtConstants.refreshTokenSecret,
       });
     } catch {
-      throw new HttpException(
-        { message: 'invalid refreshToken' },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException('Invalid refreshToken');
     }
 
     if (decodedToken.exp < currentTimestamp) {
-      throw new HttpException(
-        { message: 'refreshToken is expired' },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException('Invalid refreshToken');
     }
 
     const user = await this.usersService.findOne({ id: decodedToken.id });
@@ -90,10 +90,7 @@ export class AuthService {
     if (user.refreshToken === data.refreshToken) {
       return this.createTokens(user);
     } else {
-      throw new HttpException(
-        { message: 'invalid refreshToken' },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException('Invalid refreshToken');
     }
   }
 
@@ -108,7 +105,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException('create user error', HttpStatus.BAD_REQUEST);
+      throw new BadRequestException('Error creating user');
     }
 
     return this.createTokens(user);

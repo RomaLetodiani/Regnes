@@ -18,8 +18,12 @@ export class EmojiLogger implements LoggerService {
     this.writeToFile('🐞 ' + message);
   }
 
+  info(message: string) {
+    this.writeToFile('ℹ️ ' + message);
+  }
+
   private writeToFile(message: string) {
-    // Implement the logic to write logs to a file here.
-    console.log(message); // For demonstration purposes, we'll just log to the console.
+    // FIXME: Implement the logic to write logs to a file or database.
+    console.log(message, '\n📅 Date: ', new Date().toString(), '\n'); // For demonstration purposes, I'll just log to the console.
   }
 }

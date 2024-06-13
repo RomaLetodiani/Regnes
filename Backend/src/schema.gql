@@ -28,6 +28,7 @@ type Query {
 type Mutation {
   register(registerUserInput: RegisterUserDto!): Tokens!
   login(loginUserInput: LoginInput!): Tokens
+  logout: User
 }
 
 input RegisterUserDto {

@@ -1,7 +1,6 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
-import { AllExceptionsFilter } from './Shared/AllExceptionsFilter';
 import * as bodyParser from 'body-parser';
 import { EmojiLogger } from './Shared/EmojiLogger';
 
@@ -12,8 +11,6 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-  const httpAdapterHost = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
   app.enableCors();
   app.setGlobalPrefix('api/v1');
 

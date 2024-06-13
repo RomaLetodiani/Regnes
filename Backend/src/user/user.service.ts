@@ -50,10 +50,6 @@ export class UserService {
   async update(userId: number, body: UpdateUserDto) {
     const user = await this.findOne({ id: userId });
 
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
-
     const updatedUser = {
       ...user,
       ...body,
@@ -67,7 +63,9 @@ export class UserService {
   async updateRefreshToken(data: UpdateRefreshTokenArgs) {
     const { id, refreshToken = null } = data;
 
-    const user = await this.userRepository.findOne({ where: { id } });
+    const user = await this.findOne({
+      id,
+    });
 
     if (!user) {
       throw new NotFoundException('user not found');
