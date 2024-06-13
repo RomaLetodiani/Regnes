@@ -1,5 +1,11 @@
+import CurrentUser from "@/Components/CurrentUser";
+
 const Profile = () => {
-  return <div>Profile</div>;
+  return (
+    <div>
+      <CurrentUser />
+    </div>
+  );
 };
 
 export default Profile;

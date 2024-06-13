@@ -1,4 +1,4 @@
-import AuthStore from "@/Stores/AuthStore";
+import AuthStore from "@/Stores/Auth.Store";
 import { Navigate, Outlet } from "react-router-dom";
 
 const AuthRoutes = () => {
