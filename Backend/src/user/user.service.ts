@@ -40,13 +40,13 @@ export class UserService {
   }
 
   async findOne(criteria: Partial<User>): Promise<User> {
-    //! Default should be 0 or we should throw the error if id is undefined or null because of the bug in typeorm
+    //! We should consider that if id is undefined or null it will return first row because of the bug in typeorm
+    //! When using findOne always make sure to throw an error if the id is not provided
     //! Bug: Returns first record if id is undefined or null
     //! Issue: https://github.com/typeorm/typeorm/issues/9316
     //! PR: https://github.com/BetterLeap/typeorm/pull/1
-    const user = await this.userRepository.findOneBy({
-      ...criteria,
-      id: criteria.id ? criteria.id : 0,
+    const user = await this.userRepository.findOne({
+      where: criteria,
     });
     if (!user) {
       throw new NotFoundException('user not found');
@@ -55,6 +55,10 @@ export class UserService {
   }
 
   async update(userId: number, body: UpdateUserDto) {
+    if (!userId) {
+      throw new BadRequestException('id not provided');
+    }
+
     const user = await this.findOne({ id: userId });
 
     const updatedUser = {
@@ -69,6 +73,10 @@ export class UserService {
 
   async updateRefreshToken(data: UpdateRefreshTokenArgs) {
     const { id, refreshToken = null } = data;
+
+    if (!id) {
+      throw new BadRequestException('id not provided');
+    }
 
     const user = await this.findOne({
       id,

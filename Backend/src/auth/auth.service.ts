@@ -81,7 +81,7 @@ export class AuthService {
       throw new BadRequestException('Invalid refreshToken');
     }
 
-    if (decodedToken.exp < currentTimestamp) {
+    if (!decodedToken.id || decodedToken.exp < currentTimestamp) {
       throw new BadRequestException('Invalid refreshToken');
     }
 
@@ -92,6 +92,14 @@ export class AuthService {
     } else {
       throw new BadRequestException('Invalid refreshToken');
     }
+  }
+
+  async login(user: User) {
+    user.signInCount += 1;
+    const { signInCount } = user;
+    await this.usersService.update(user.id, { signInCount });
+
+    return await this.createTokens(user);
   }
 
   async localRegister(data: RegisterUserDto) {
@@ -107,8 +115,6 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('Error creating user');
     }
-
-    return this.createTokens(user);
   }
 
   async logout(id: number) {

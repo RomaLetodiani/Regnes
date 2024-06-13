@@ -3,12 +3,13 @@
 # ------------------------------------------------------
 
 type User {
-  id: Int!
+  id: Float!
   username: String!
   password: String!
-  signInCount: Int!
+  signInCount: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
+  refreshToken: String!
 }
 
 """
@@ -16,19 +17,32 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AllUsersData {
+  username: String!
+}
+
 type Tokens {
   accessToken: String!
   refreshToken: String!
 }
 
 type Query {
-  AllUsers: [User!]!
+  """Get all users"""
+  AllUsers: [AllUsersData!]!
+
+  """Get Current User"""
+  CurrentUser: User!
 }
 
 type Mutation {
-  register(registerUserInput: RegisterUserDto!): Tokens!
+  """Register a new user"""
+  register(registerUserInput: RegisterUserDto!): String!
+
+  """Login a user"""
   login(loginUserInput: LoginInput!): Tokens
-  logout: User
+
+  """Logout a user"""
+  logout: String!
 }
 
 input RegisterUserDto {

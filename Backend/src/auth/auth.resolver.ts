@@ -12,28 +12,30 @@ import { JwtAuthGuard } from './guards/JWT.guard';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Tokens)
   @Public()
+  @Mutation(() => String, { description: 'Register a new user' })
   async register(
     @Args('registerUserInput') registerUserInput: RegisterUserDto,
-  ) {
-    return await this.authService.localRegister(registerUserInput);
+  ): Promise<string> {
+    await this.authService.localRegister(registerUserInput);
+    return 'User registered Successfully';
   }
 
-  @Mutation(() => Tokens, { nullable: true })
+  @Mutation(() => Tokens, { nullable: true, description: 'Login a user' })
   @UseGuards(LocalAuthGuard)
   @Public()
   async login(
     @Args('loginUserInput') loginUserInput: LoginInput,
     @Context() context: any,
   ) {
-    return await this.authService.createTokens(context.user);
+    return await this.authService.login(context.user);
   }
 
-  @Mutation(() => User, { nullable: true })
+  @Mutation(() => String, { description: 'Logout a user' })
   @UseGuards(JwtAuthGuard)
-  @Public()
-  async logout() {
-    return await this.authService.logout(undefined);
+  async logout(@Context() context: any) {
+    const user = context.req.user;
+    await this.authService.logout(user.id);
+    return 'Successfully logged out';
   }
 }
