@@ -16,7 +16,7 @@ export class AuthResolver {
   @Mutation(() => String, { description: 'Register a new user' })
   async register(
     @Args('registerUserInput') registerUserInput: RegisterUserDto,
-  ): Promise<string> {
+  ) {
     await this.authService.localRegister(registerUserInput);
     return 'User registered Successfully';
   }
@@ -31,7 +31,15 @@ export class AuthResolver {
     return await this.authService.login(context.user);
   }
 
-  @Mutation(() => String, { description: 'Logout a user' })
+  @Mutation(() => Tokens, { description: 'Refresh tokens' })
+  @Public()
+  async refreshTokens(@Args('refreshToken') refreshToken: string) {
+    return await this.authService.updateTokens({ refreshToken });
+  }
+
+  @Mutation(() => String, {
+    description: 'Logout a user (Authorization Required)',
+  })
   @UseGuards(JwtAuthGuard)
   async logout(@Context() context: any) {
     const user = context.req.user;
