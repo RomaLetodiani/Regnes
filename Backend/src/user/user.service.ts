@@ -40,7 +40,14 @@ export class UserService {
   }
 
   async findOne(criteria: Partial<User>): Promise<User> {
-    const user = await this.userRepository.findOne({ where: criteria });
+    //! Default should be 0 or we should throw the error if id is undefined or null because of the bug in typeorm
+    //! Bug: Returns first record if id is undefined or null
+    //! Issue: https://github.com/typeorm/typeorm/issues/9316
+    //! PR: https://github.com/BetterLeap/typeorm/pull/1
+    const user = await this.userRepository.findOneBy({
+      ...criteria,
+      id: criteria.id ? criteria.id : 0,
+    });
     if (!user) {
       throw new NotFoundException('user not found');
     }
