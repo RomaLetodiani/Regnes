@@ -1,4 +1,6 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useState } from "react";
+import { GoEyeClosed } from "react-icons/go";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
 
 export interface inputI extends InputHTMLAttributes<HTMLInputElement> {
@@ -21,6 +23,8 @@ const Input = ({
   focus,
   ...rest
 }: inputI) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const isPassword = rest.type === "password";
   return (
     <div className={twMerge("relative w-full", wrapperClassName)}>
       <label
@@ -40,13 +44,27 @@ const Input = ({
       </label>
       <input
         {...rest}
+        type={isPassword ? (passwordVisible ? "text" : "password") : rest.type}
         className={twMerge(
           "w-full border outline-none px-3 py-2 rounded-xl",
           label && "pt-5",
-          `${hasError && "border-danger"}`,
+          hasError && "border-danger",
+          isPassword && "pr-14",
           inputClassName
         )}
       />
+      {isPassword && (
+        <div
+          className={twMerge(
+            "absolute cursor-pointer right-0 top-0 text-xl flex justify-center items-center w-[50px] h-[50px]",
+            focus ? "text-primary" : "text-secondary-200",
+            hasError && "text-error"
+          )}
+          onClick={() => setPasswordVisible((prev) => !prev)}
+        >
+          {passwordVisible ? <MdOutlineRemoveRedEye /> : <GoEyeClosed />}
+        </div>
+      )}
     </div>
   );
 };
