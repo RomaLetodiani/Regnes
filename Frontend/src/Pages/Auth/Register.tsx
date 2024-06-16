@@ -7,11 +7,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Register = () => {
-  const [register] = useMutation(REGISTER_MUTATION);
   const navigate = useNavigate();
 
   const usernameInput = useInput((username) => username.length > 5);
   const passwordInput = useInput((password) => password.length > 5);
+  const [register] = useMutation(REGISTER_MUTATION, {
+    variables: { username: usernameInput.value, password: passwordInput.value },
+    onCompleted: (data) => {
+      toast.success(data.register);
+      navigate("/login");
+      toast.info("Please login to continue");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const errors = [
     usernameInput.hasError,
@@ -26,19 +36,9 @@ const Register = () => {
       toast.error("Please fill all the fields");
       return;
     }
-    await register({
-      variables: { username: usernameInput.value, password: passwordInput.value },
-    })
-      .then(({ data }) => {
-        toast.success(data.register);
-        navigate("/login");
-        toast.info("Please login to continue.");
-      })
-      .catch(() => {
-        // TODO: Handle error properly, show error message from server
-        toast.error("Error creating account, please try again later.");
-      });
+    await register();
   };
+
   return (
     <div className="flex flex-col justify-center items-center h-full text-primary">
       <form
