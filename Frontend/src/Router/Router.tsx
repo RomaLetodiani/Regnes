@@ -1,10 +1,12 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import Profile from "@/Pages/Profile/Profile";
 import AuthRoutes from "./AuthRoutes";
-import Login from "@/Pages/Auth/Login";
-import Register from "@/Pages/Auth/Register";
-import Error from "@/Pages/Error/Error";
+import { lazy } from "react";
+
+const Profile = lazy(() => import("@/Pages/Profile/Profile"));
+const Login = lazy(() => import("@/Pages/Auth/Login"));
+const Register = lazy(() => import("@/Pages/Auth/Register"));
+const Error = lazy(() => import("@/Pages/Error/Error"));
 
 const router = createBrowserRouter([
   {
