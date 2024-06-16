@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { ReactNode } from "react";
-import { link } from "./Link";
+import { link } from "./Links";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
 });

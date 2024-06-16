@@ -4,12 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#FF6363",
-        secondary: {
-          100: "#E2E2D5",
-          200: "#888883",
-        },
-        danger: "#ff0000",
+        primary: "#042890",
+        secondary: "#0A6FA0",
+        purple: "#84A3FF",
+        danger: "#FF0000",
+      },
+
+      gradientColorStops: {
+        oceanBlue: "#042890",
+        skyBlue: "#0A6FA0",
       },
     },
   },
