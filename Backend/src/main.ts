@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { EmojiLogger } from './Shared/EmojiLogger';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -12,7 +13,6 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   app.enableCors();
-  app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(
     new ValidationPipe({

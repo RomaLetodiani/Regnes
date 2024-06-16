@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { GraphQLError } from 'graphql';
 import { EmojiLogger } from './Shared/EmojiLogger';
+import { WebsocketsGatewayModule } from './gateway/websocket.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { EmojiLogger } from './Shared/EmojiLogger';
     }),
     UserModule,
     AuthModule,
+    WebsocketsGatewayModule,
   ],
 })
 export class AppModule {}

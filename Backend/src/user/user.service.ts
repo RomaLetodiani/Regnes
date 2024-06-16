@@ -35,8 +35,19 @@ export class UserService {
     return await this.userRepository.save(createUserInput);
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+  async findGlobalSignInCount(): Promise<number> {
+    return await this.userRepository.find().then((users) => {
+      return users.reduce((acc, user) => acc + user.signInCount, 0);
+    });
+  }
+
+  async findPersonalSignInCount(userId: number): Promise<number> {
+    if (!userId) {
+      throw new BadRequestException('id not provided');
+    }
+    return await this.findOne({ id: userId }).then((user) => {
+      return user.signInCount;
+    });
   }
 
   async findOne(criteria: Partial<User>): Promise<User> {

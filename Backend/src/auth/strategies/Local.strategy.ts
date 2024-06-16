@@ -4,10 +4,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { AuthService } from '../auth.service';
 import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {
     super();
   }
 
@@ -17,6 +21,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException();
     }
+
+    user.signInCount += 1;
+    await this.userService.update(user.id, { signInCount: user.signInCount });
 
     return user;
   }

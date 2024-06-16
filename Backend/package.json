@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "regnes-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Backend GraphQL API for Regnes",
+  "author": "Roman Letodiani",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

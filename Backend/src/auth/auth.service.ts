@@ -95,10 +95,6 @@ export class AuthService {
   }
 
   async login(user: User) {
-    user.signInCount += 1;
-    const { signInCount } = user;
-    await this.usersService.update(user.id, { signInCount });
-
     return await this.createTokens(user);
   }
 
