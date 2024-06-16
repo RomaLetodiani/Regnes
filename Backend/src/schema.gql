@@ -9,7 +9,7 @@ type User {
   signInCount: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
-  refreshToken: String!
+  refreshToken: String
 }
 
 """

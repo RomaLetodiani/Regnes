@@ -5,7 +5,6 @@ import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/Local.guard';
 import { RegisterUserDto } from './dto/RegisterUserDto';
 import { Public } from 'src/Shared/Decorators/public.decorator';
-import { User } from 'src/user/entities/user.entity';
 import { JwtAuthGuard } from './guards/JWT.guard';
 
 @Resolver()

@@ -37,6 +37,6 @@ export class User {
 
   //! Usually i make blacklists for tokens and cron job to clear expired ones from db but for the sake of simplicity i will just store the last token
   @Column({ nullable: true })
-  @Field()
-  refreshToken: string;
+  @Field({ nullable: true })
+  refreshToken?: string;
 }
