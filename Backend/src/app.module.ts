@@ -5,7 +5,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { GraphQLError } from 'graphql';
 import { EmojiLogger } from './Shared/EmojiLogger';
 
 @Module({

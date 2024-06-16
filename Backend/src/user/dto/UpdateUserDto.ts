@@ -4,8 +4,8 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class UpdateUserDto {
   @Field({ nullable: true })
-  @IsOptional()
   @IsString()
+  @IsOptional()
   username?: string;
 
   @Field({ nullable: true })
