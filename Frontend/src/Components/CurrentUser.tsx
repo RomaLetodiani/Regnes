@@ -1,19 +1,24 @@
 // src/components/CurrentUser.tsx
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_CURRENT_USER } from "@/GraphQL/Query/User.Queries";
+import AuthStore from "@/Stores/Auth.Store";
+import Avatar from "./Avatar/Avatar";
+import { sliceText } from "@/Utils/Helpers";
 
 const CurrentUser: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_CURRENT_USER);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const { fullUser } = AuthStore();
 
   return (
-    <div>
-      <h1>Current User</h1>
-      <p>ID: {data.CurrentUser.id}</p>
-      <p>Name: {data.CurrentUser.username}</p>
+    <div className="text-center flex flex-col gap-1 items-center">
+      <Avatar
+        imageSize="w-20 h-20"
+        textSize="text-5xl"
+        bgColor="bg-gradient-to-bl from-skyBlue to-oceanBlue"
+        username={fullUser?.username}
+      />
+      <p className="text-sm">Current User</p>
+      {fullUser?.username && (
+        <h1 className="text-3xl font-bold">{sliceText(fullUser.username, 50)}</h1>
+      )}
     </div>
   );
 };

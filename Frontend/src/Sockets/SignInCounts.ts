@@ -2,6 +2,7 @@ import GlobalStore from "@/Stores/GlobalStore";
 import { useEffect } from "react";
 import { socket } from "./Socket";
 import AuthStore from "@/Stores/Auth.Store";
+import { toast } from "react-toastify";
 
 const SignInCounts = () => {
   const { setGlobalSignInCount, setPersonalSignInCount } = GlobalStore();
@@ -10,7 +11,6 @@ const SignInCounts = () => {
     if (!isAuthenticated) {
       return;
     }
-
     socket.auth = { token: accessToken };
     socket.connect();
 
@@ -25,6 +25,10 @@ const SignInCounts = () => {
     // Handle globalSignInCount event from server
     socket.on("globalUserSignInCount", (count) => {
       setGlobalSignInCount(count);
+    });
+
+    socket.on("fifthLoginNotification", () => {
+      toast.success("5 More Users have signed in!");
     });
 
     return () => {

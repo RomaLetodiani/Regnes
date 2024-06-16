@@ -13,7 +13,8 @@ const Button = ({ children, className, btnType = "primary", ...rest }: ButtonI) 
       {...rest}
       className={twMerge(
         "rounded-lg cursor-pointer px-5 py-2 shadow-lg hover:opacity-70",
-        btnType === "primary" && "bg-primary text-white",
+        btnType === "primary" &&
+          "bg-gradient-to-br text-white font-bold tracking-widest from-skyBlue to-oceanBlue border",
         btnType === "secondary" && "bg-secondary-200 text-primary",
         btnType === "danger" && "bg-danger text-white",
         className
