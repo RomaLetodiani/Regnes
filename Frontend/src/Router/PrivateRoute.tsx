@@ -14,9 +14,12 @@ const PrivateRoute = () => {
     context: {
       requiresAuth: true,
     },
+    fetchPolicy: "no-cache",
     onError(error) {
       console.log("🚀 ~ onError ~ error:", error);
       toast.error(error.message);
+      clearTokens();
+      navigate("/login");
     },
   });
   useEffect(() => {
@@ -28,7 +31,7 @@ const PrivateRoute = () => {
   if (loading) {
     return <Loading />;
   }
-  return isAuthenticated || !error ? (
+  return isAuthenticated && !error ? (
     <Sockets>
       <Outlet />
     </Sockets>

@@ -12,5 +12,6 @@ import { UserModule } from 'src/user/user.module';
     }),
   ],
   providers: [WebsocketsGateway],
+  exports: [WebsocketsGateway],
 })
 export class WebsocketsGatewayModule {}

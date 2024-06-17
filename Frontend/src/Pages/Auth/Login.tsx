@@ -2,7 +2,6 @@ import Button from "@/Components/UI/Button/Button";
 import Input from "@/Components/UI/Input/Input";
 import { LOGIN_MUTATION } from "@/GraphQL/Mutation/Auth.Mutation";
 import { useInput } from "@/Hooks/UseInput";
-import { socket } from "@/Sockets/Socket";
 import AuthStore from "@/Stores/Auth.Store";
 import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ const Login = () => {
   const { setTokens } = AuthStore();
   const usernameInput = useInput((username) => username.length > 5);
   const passwordInput = useInput((password) => password.length > 5);
+
   const [login] = useMutation(LOGIN_MUTATION, {
     variables: { username: usernameInput.value, password: passwordInput.value },
     onCompleted: (data) => {
@@ -36,9 +36,7 @@ const Login = () => {
       toast.error("Please fill all the fields");
       return;
     }
-    await login().then(() => {
-      socket.emit("loginEvent");
-    });
+    await login();
   };
   return (
     <div className="flex flex-col justify-center items-center h-full text-primary">
