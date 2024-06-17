@@ -1,8 +1,8 @@
-import GlobalStore from "@/Stores/GlobalStore";
 import { useEffect } from "react";
 import { socket } from "./Socket";
 import AuthStore from "@/Stores/Auth.Store";
 import { toast } from "react-toastify";
+import GlobalStore from "@/Stores/Global.Store";
 
 const SignInCounts = () => {
   const { setGlobalSignInCount, setPersonalSignInCount } = GlobalStore();

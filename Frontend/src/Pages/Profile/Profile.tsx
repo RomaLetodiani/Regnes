@@ -3,7 +3,7 @@ import CurrentUser from "@/Components/CurrentUser";
 import Button from "@/Components/UI/Button/Button";
 import { LOGOUT_MUTATION } from "@/GraphQL/Mutation/Auth.Mutation";
 import AuthStore from "@/Stores/Auth.Store";
-import GlobalStore from "@/Stores/GlobalStore";
+import GlobalStore from "@/Stores/Global.Store";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
