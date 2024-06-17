@@ -7,31 +7,42 @@ import { toast } from "react-toastify";
 const SignInCounts = () => {
   const { setGlobalSignInCount, setPersonalSignInCount } = GlobalStore();
   const { isAuthenticated, accessToken } = AuthStore();
+
   useEffect(() => {
     if (!isAuthenticated) {
       return;
     }
+
     socket.auth = { token: accessToken };
     socket.connect();
 
-    socket.on("roomId", (roomId) => {
-      socket.emit("joinRoom", roomId);
-    });
-
-    socket.on("personalSignInCount", (count) => {
+    const handlePersonalSignInCount = (count: number) => {
       setPersonalSignInCount(count);
-    });
+    };
 
-    // Handle globalSignInCount event from server
-    socket.on("globalUserSignInCount", (count) => {
+    const handleGlobalSignInCount = (count: number) => {
       setGlobalSignInCount(count);
-    });
+    };
 
-    socket.on("fifthLoginNotification", () => {
-      toast.success("5 More Users have signed in!");
-    });
+    const handleFifthLoginNotification = () => {
+      toast.success("5 more users have logged in!");
+    };
+
+    // Remove previous listeners to prevent duplication
+    socket.off("personalSignInCount", handlePersonalSignInCount);
+    socket.off("globalUserSignInCount", handleGlobalSignInCount);
+    socket.off("fifthLoginNotification", handleFifthLoginNotification);
+
+    // Add event listeners
+    socket.on("personalSignInCount", handlePersonalSignInCount);
+    socket.on("globalUserSignInCount", handleGlobalSignInCount);
+    socket.on("fifthLoginNotification", handleFifthLoginNotification);
 
     return () => {
+      // Clean up listeners on component unmount
+      socket.off("personalSignInCount", handlePersonalSignInCount);
+      socket.off("globalUserSignInCount", handleGlobalSignInCount);
+      socket.off("fifthLoginNotification", handleFifthLoginNotification);
       socket.disconnect();
     };
   }, [isAuthenticated]);
