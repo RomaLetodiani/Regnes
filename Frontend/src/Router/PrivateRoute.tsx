@@ -16,7 +16,6 @@ const PrivateRoute = () => {
     },
     fetchPolicy: "no-cache",
     onError(error) {
-      console.log("🚀 ~ onError ~ error:", error);
       toast.error(error.message);
       clearTokens();
       navigate("/login");
