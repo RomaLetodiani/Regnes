@@ -68,7 +68,7 @@ Make sure you have the following installed on your machine:
 ## Folder Structure
 
 ```sh
-your-repo-name/
+Regnes/
 ├── src/
 │   ├── Auth/
 │   ├── Gateway/
