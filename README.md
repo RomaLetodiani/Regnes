@@ -8,6 +8,9 @@ Regnes is a full-stack application comprising a frontend built with React and a 
 - **Real-Time Updates**: View personal and global sign-in counts in real-time.
 - **Private and Public Routes**: Secure and manage routes for authenticated and unauthenticated users.
 
+## UI
+![UI Screen](images/UI.png)
+
 ## Technologies Used
 
 ### Frontend
